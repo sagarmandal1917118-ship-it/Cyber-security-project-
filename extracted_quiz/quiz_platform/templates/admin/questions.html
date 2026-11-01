@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Manage Questions{% endblock %}
+{% block content %}
+{% set difficulty = 'easy' %}
+<h3 class="page-title mb-3">Manage Questions</h3>
+
+<form method="POST" action="{{ url_for('add_question') }}" class="cq-card p-3 mb-4">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <div class="fw-bold small mb-2">Add new question</div>
+  {% set selected_category = 0 %}{% set question_text = '' %}{% set explanation = '' %}
+  {% set option_texts = ['', '', '', ''] %}{% set correct = 1 %}
+  {% include "admin/_question_fields.html" %}
+  <button class="btn btn-primary btn-sm" type="submit">Add Question</button>
+</form>
+
+<div class="table-wrap mb-3">
+  <table class="table cq-table">
+    <thead><tr><th style="width:60px">ID</th><th>Category</th><th>Question</th><th style="width:130px">Actions</th></tr></thead>
+    <tbody>
+    {% for q in questions %}
+      <tr>
+        <td>{{ q.question_id }}</td>
+        <td>{{ q.category_name }}</td>
+        <td>{{ q.question_text }}</td>
+        <td class="text-nowrap">
+          <a class="btn btn-outline-primary btn-sm py-0" href="{{ url_for('edit_question', question_id=q.question_id) }}">Edit</a>
+          <form method="POST" action="{{ url_for('delete_question', question_id=q.question_id) }}" class="d-inline"
+                onsubmit="return confirm('Delete this question?');">
+            <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+            <button class="btn btn-outline-danger btn-sm py-0" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="4" class="text-center text-muted py-4">No questions yet.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if pages > 1 %}
+<nav class="d-flex justify-content-center">
+  <ul class="pagination pagination-sm">
+    {% for p in range(1, pages + 1) %}
+      <li class="page-item {{ 'active' if p == page }}"><a class="page-link" href="{{ url_for('admin_questions', page=p) }}">{{ p }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

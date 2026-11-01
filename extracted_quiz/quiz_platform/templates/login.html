@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block flashes %}{% endblock %}
+{% block content %}
+<div class="cq-card auth-card">
+  <h4>Welcome back</h4>
+  <div class="text-muted small mb-3">Login to continue your quizzes.</div>
+  {% include "_flashes.html" %}
+  <form method="POST" action="{{ url_for('login') }}">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <div class="mb-3">
+      <label class="form-label" for="email">Email</label>
+      <input class="form-control form-control-sm" id="email" name="email" type="email"
+             value="{{ form.get('email', '') }}" required autofocus>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="password">Password</label>
+      <input class="form-control form-control-sm" id="password" name="password" type="password" required>
+    </div>
+    <button class="btn btn-primary w-100 btn-sm" type="submit">Login</button>
+    <div class="text-center small mt-3">New here? <a href="{{ url_for('register') }}">Create an account</a></div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<h3 class="page-title mb-0">My Quiz History</h3>
+<div class="text-muted small mb-3">All your previous attempts.</div>
+<div class="table-wrap">
+  <table class="table cq-table">
+    <thead><tr><th>#</th><th>Category</th><th>Score</th><th>Percentage</th><th>Date</th><th>Certificate</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ r.category_name }}</td>
+        <td>{{ r.score }} / {{ r.total_questions }}</td>
+        <td><span class="pill {{ 'pill-pass' if r.percent|int >= pass_percent else 'pill-fail' }}">{{ r.percent|int }}%</span></td>
+        <td>{{ r.attempt_date|dt }}</td><td>{% if r.percent|int >= pass_percent %}<a class="btn btn-sm btn-outline-success" href="{{ url_for('certificate', result_id=r.result_id) }}">Download PDF</a>{% else %}—{% endif %}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6" class="text-center text-muted py-4">No attempts yet. <a href="{{ url_for('dashboard') }}">Take your first quiz</a>.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

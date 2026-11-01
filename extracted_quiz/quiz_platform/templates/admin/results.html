@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}All Results{% endblock %}
+{% block content %}
+<h3 class="page-title mb-0">All Results</h3>
+<div class="text-muted small mb-3">Latest 200 quiz attempts of all users.</div>
+<div class="table-wrap">
+  <table class="table cq-table">
+    <thead><tr><th>#</th><th>User</th><th>Category</th><th>Score</th><th>Percentage</th><th>Date</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td>{{ r.result_id }}</td>
+        <td>{{ r.name }}</td>
+        <td>{{ r.category_name }}</td>
+        <td>{{ r.score }} / {{ r.total_questions }}</td>
+        <td><span class="pill {{ 'pill-pass' if r.percent|int >= pass_percent else 'pill-fail' }}">{{ r.percent|int }}%</span></td>
+        <td>{{ r.attempt_date|dt }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6" class="text-center text-muted py-4">No attempts yet.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

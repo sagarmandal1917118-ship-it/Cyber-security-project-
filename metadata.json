@@ -1,0 +1,6 @@
+{
+  "name": "CyberQuiz - Cybersecurity Awareness Platform",
+  "description": "Interactive cybersecurity training and quiz platform with hands-on labs, comprehensive question banks, real-time analytics, certificates, and an admin management suite.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

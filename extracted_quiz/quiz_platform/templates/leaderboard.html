@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard{% endblock %}
+{% block content %}
+<h3 class="page-title mb-0">Leaderboard</h3>
+<div class="text-muted small mb-3">Top performers by total score.</div>
+<div class="table-wrap">
+  <table class="table cq-table">
+    <thead><tr><th>Rank</th><th>Name</th><th>Quizzes</th><th>Total score</th><th>Average</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr class="{{ 'me-row' if r.user_id == session.get('user_id') }}">
+        <td>{% if loop.index == 1 %}&#129351;{% elif loop.index == 2 %}&#129352;{% elif loop.index == 3 %}&#129353;{% else %}<strong>{{ loop.index }}</strong>{% endif %}</td>
+        <td>{{ r.name }}</td>
+        <td>{{ r.quizzes }}</td>
+        <td>{{ r.total_score|int }}</td>
+        <td>{{ r.average|int }}%</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5" class="text-center text-muted py-4">No results yet. Be the first to take a quiz!</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

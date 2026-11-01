@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel{% endblock %}
+{% block content %}
+<h3 class="page-title mb-0">Admin Dashboard</h3>
+<div class="text-muted small mb-3">Overview of the platform.</div>
+
+<div class="row g-3 mb-3">
+  {% for label, value in [('Registered users', stats.users), ('Categories', stats.categories),
+                          ('Questions', stats.questions), ('Quiz attempts', stats.attempts)] %}
+  <div class="col-6 col-md-3">
+    <div class="cq-card p-3 h-100">
+      <div class="stat-label">{{ label }}</div>
+      <div class="stat-value">{{ value }}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row g-3">
+  <div class="col-md-5">
+    <div class="cq-card p-3 h-100">
+      <div class="fw-bold small mb-2">Quick actions</div>
+      <div class="d-grid gap-2">
+        <a class="btn btn-primary btn-sm" href="{{ url_for('admin_questions') }}">Manage Questions</a>
+        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('admin_users') }}">Manage Users</a>
+        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('admin_results') }}">View All Results</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="cq-card p-3 h-100">
+      <div class="fw-bold small mb-2">Attempts by category</div>
+      {% for c in by_category %}
+      <div class="mb-2">
+        <div class="d-flex justify-content-between" style="font-size:.75rem">
+          <span>{{ c.category_name }}</span><span class="text-muted">{{ c.percent }}%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ c.percent }}%"></div></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

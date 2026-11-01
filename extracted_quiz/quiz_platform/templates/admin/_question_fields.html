@@ -1,0 +1,33 @@
+{# expects: categories, selected_category, question_text, explanation, option_texts (4), correct (1-4) #}
+<div class="row g-2 mb-2">
+  <div class="col-md-3">
+    <select name="category_id" class="form-select form-select-sm" required>
+      {% for c in categories %}
+        <option value="{{ c.category_id }}" {{ 'selected' if c.category_id == selected_category }}>{{ c.category_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-9">
+    <input name="question_text" class="form-control form-control-sm" placeholder="Question text"
+           value="{{ question_text }}" maxlength="1000" required>
+  </div>
+  <select name="difficulty" class="form-select form-select-sm mt-2">
+    {% for level in ['easy','medium','hard'] %}<option value="{{ level }}" {{ 'selected' if level == difficulty }}>{{ level|title }}</option>{% endfor %}
+  </select>
+</div>
+<div class="row g-2 mb-2">
+  {% for i in range(1, 5) %}
+  <div class="col-md-6">
+    <div class="input-group input-group-sm">
+      <div class="input-group-text">
+        <input class="form-check-input mt-0" type="radio" name="correct" value="{{ i }}"
+               title="Mark as the correct option" {{ 'checked' if i == correct }} required>
+      </div>
+      <input name="option{{ i }}" class="form-control" placeholder="Option {{ i }}"
+             value="{{ option_texts[i - 1] }}" maxlength="255" required>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<input name="explanation" class="form-control form-control-sm mb-2"
+       placeholder="Explanation shown on the result page" value="{{ explanation }}">
